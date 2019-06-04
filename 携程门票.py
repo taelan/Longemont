@@ -19,13 +19,13 @@ def cjs_(s):
         if '已取消' in s:
             return('订单已取消')
         else:
-            return(str(s))
+            return(s)
 
 def cjrc_(s):       
         if '未取票' in s:            
             return('未取票')
         else:
-            return(int(s))
+            return(s)
 
 
 datalist = [] 
@@ -40,7 +40,7 @@ for i in range(0, len(f)):
     #ddzt_c = f[f['订单状态'].str.contains('已取消')]
     #cjs = len(f[~f['订单状态'].str.contains('已取消')])
    # qps_c = f[f['取票数'].str.contains('未取票')]
-    data_list2 = [['下单数',xds],
+    data_list2 = [['时间',xds],
                   ['成交数',cjs],
                   ['取票数',qps],
                   ['总底价',zdj],
@@ -71,13 +71,17 @@ df_paid = df1[~df1['成交数'].str.contains('已取消')]
 cjs = len(df_paid)
 
 #成交人数
+df_cjrs = df_paid[~df_paid['取票数'].str.contains('未取票')]
+for i in range(0,len(df_cjrs)): 
+    list_cjrs.append(int(df_cjrs.iloc[i]['取票数']))
+cjrs = sum(list_cjrs) 
 #成交金额
 df_paid = df1[~df1['成交数'].str.contains('已取消')]
 for i in range(0,len(df_paid)):    
     list_zdj.append(df_paid.iloc[i]['总底价'])
-    list_cjrs.append(df_paid.iloc[i]['订票数'])
+    
 cjje = sum(list_zdj)
-cjrs = sum(list_cjrs)
+
 
 #成交率
 cjl = '%0.2f'%(cjs/xds)
@@ -103,3 +107,5 @@ data_list3 = [['下单数',xds],
               ['流失人数',lsrs]]
 
 df_xiaoji = pd.DataFrame(data_list3)
+
+print(cjrs)
