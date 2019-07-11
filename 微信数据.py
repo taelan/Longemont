@@ -72,7 +72,9 @@ for i in range(0, len(df)):
     datalist.append(dict(data_list2))
 dfsj = pd.DataFrame(datalist)
 dfsj.index=df.交易日期
-dfsj.drop(['交易日期'],axis=1)
-df_jd = dfsj[dfsj['产品名称'].str.contains('钻石酒店' )]
+dfsj.drop(['交易日期'],axis=1,inplace=True)
+jdsj = dfsj[dfsj['产品名称'].str.contains('钻石酒店' )]
 df_mp = dfsj[dfsj['产品名称'].str.contains('动物世界车行区|梦幻钻石')]
-df_mp.drop(['成交夜数'],axis=1)
+mpsj = pd.DataFrame(df_mp)
+mpsj.drop(['成交夜数'],axis=1,inplace=True)
+
